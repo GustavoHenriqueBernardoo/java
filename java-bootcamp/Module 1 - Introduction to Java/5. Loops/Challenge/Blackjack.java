@@ -17,20 +17,7 @@ public class Blackjack {
         String userCard2 = cardString(userN2);
         System.out.println("\n You get a \n" + userCard1 + "\n and a \n" + userCard2 + "");
 
-        int handValue = 0;
-        if (userN1 > 10 && userN2 > 10) {
-            handValue += 20;
-        }
-
-        if (userN1 > 10 && userN2 <= 10) {
-            handValue = 10 + userN2;
-        }
-        if (userN1 <= 10 && userN2 > 10) {
-            handValue = 10 + userN1;
-        }
-        if (userN1 <= 10 && userN2 <= 10) {
-            handValue = userN1 + userN2;
-        }
+        int handValue = Math.min(userN1, 10) + Math.min(userN2, 10);
 
         System.out.println("Your total is: " + handValue + "");
 
@@ -40,20 +27,7 @@ public class Blackjack {
         String cpuCard2 = cardString(cpuN2);
         System.out.println("\n The dealer shows \n" + cpuCard1 + "\n and has a card facing down \n" + faceDown() + "");
 
-        int cpuValue = 0;
-        if (cpuN1 > 10 && cpuN2 > 10) {
-            cpuValue += 20;
-        }
-
-        if (cpuN1 > 10 && cpuN2 <= 10) {
-            cpuValue = 10 + cpuN2;
-        }
-        if (cpuN1 <= 10 && cpuN2 > 10) {
-            cpuValue = 10 + cpuN1;
-        }
-        if (cpuN1 <= 10 && cpuN2 <= 10) {
-            cpuValue = cpuN1 + cpuN2;
-        }
+        int cpuValue = Math.min(cpuN1, 10) + Math.min(cpuN2, 10);
 
         while (true) {
             String playerAnswer = hitOrStay();
