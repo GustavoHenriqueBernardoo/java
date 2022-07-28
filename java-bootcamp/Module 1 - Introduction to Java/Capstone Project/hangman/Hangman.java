@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 import javax.swing.event.SwingPropertyChangeSupport;
 
 public class Hangman {
@@ -88,11 +90,28 @@ public class Hangman {
         }
     }
 
+    public static Boolean checkChess(char guess, String randomWord) {
+        int index = 0;
+
+        if (guess == randomWord.charAt(index)) {
+            index++;
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
+
+        Scanner scan = new Scanner(System.in);
         // System.out.println("Word: " + randomWord(words));
         // String randomWord = randomWord(words);
-
+        System.out.println(gallows[0]);
         printPlaceHolder(words, randomWord(words));
+        System.out.println("\n");
+        System.out.println("Misses: ");
+        System.out.print("\nGuess: ");
+        char guess = scan.next().charAt(0);
+        checkChess(guess, randomWord(words));
     }
 
 }
