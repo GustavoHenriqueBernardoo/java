@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.event.SwingPropertyChangeSupport;
@@ -84,13 +85,14 @@ public class Hangman {
     public static void printPlaceHolder(String[] words, String randomWord) {
         String random = randomWord(words);
         int wordLength = random.length();
+        System.out.print("\n");
         System.out.print("Word:" + "\t");
         for (int i = 0; i < wordLength; i++) {
             System.out.print("_ ");
         }
     }
 
-    public static Boolean checkChess(char guess, String randomWord) {
+    public static Boolean checkGuess(char guess, String randomWord) {
         int index = 0;
 
         if (guess == randomWord.charAt(index)) {
@@ -100,18 +102,55 @@ public class Hangman {
         return false;
     }
 
-    public static void main(String[] args) {
+    public static void updatePlaceHolder(char[] placeHolder, Boolean checkGuess, String randomWord) {
+        // int index = 0;
 
+        System.out.print("Word:" + "\t");
+        for (int i = 0; i < randomWord.length(); i++) {
+            if (checkGuess) {
+                System.out.print(randomWord.charAt(i));
+                break;
+            } else {
+                System.out.print("_ ");
+
+            }
+
+        }
+
+    }
+
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        // System.out.println("Word: " + randomWord(words));
-        // String randomWord = randomWord(words);
-        System.out.println(gallows[0]);
-        printPlaceHolder(words, randomWord(words));
-        System.out.println("\n");
-        System.out.println("Misses: ");
-        System.out.print("\nGuess: ");
-        char guess = scan.next().charAt(0);
-        checkChess(guess, randomWord(words));
+
+        int round = 0;
+        String randomWord = randomWord(words);
+        System.out.println("Word:" + randomWord);
+
+        // create place holder
+        char[] placeHolder = new char[randomWord.length()];
+
+        System.out.println(Arrays.toString(placeHolder));
+
+        while (round < 6) {
+            System.out.println(gallows[0]);
+            printPlaceHolder(words, randomWord);
+            System.out.println("\n");
+            System.out.println("Misses: ");
+            System.out.print("\nGuess: ");
+            char guess = scan.next().charAt(0);
+
+            Boolean checkGuess = checkGuess(guess, randomWord);
+
+            System.out.println("\n");
+            // System.out.println("Guess:" + guess);
+            // System.out.println("Word:" + randomWord);
+
+            updatePlaceHolder(placeHolder, checkGuess, randomWord);
+
+            round++;
+        }
+
+        scan.close();
     }
 
 }
