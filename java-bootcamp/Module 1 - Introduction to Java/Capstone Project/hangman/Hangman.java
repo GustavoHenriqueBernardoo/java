@@ -50,8 +50,7 @@ public class Hangman {
             " +---+\n" +
                     " |   |\n" +
                     " O   |\n" +
-                    "/|\\  |\n" + // if you were wondering, the only way to print '\' is with a trailing escape
-                                  // character, which also happens to be '\'
+                    "/|\\  |\n" +
                     "     |\n" +
                     "     |\n" +
                     " =========\n",
@@ -75,9 +74,8 @@ public class Hangman {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        int round = 0;
         int misses = 0;
-        char[] missesArr = new char[7];
+        char[] missesArr = new char[6];
 
         String randomWord = randomWord(words);
         int randomWordLength = randomWord.length();
@@ -87,94 +85,131 @@ public class Hangman {
         char[] placeHolder = new char[randomWordLength];
 
         while (misses < 6) {
+            // Print the gallow draw
             System.out.println(gallows[misses]);
 
+            // Print the place holder to the word
+            System.out.print("\n");
+            System.out.print("Word:" + "\t");
             printPlaceHolder(placeHolder, randomWordLength);
 
+            // Print amount of wrong guesses
             System.out.println("\n");
-            System.out.println("Misses: " + Arrays.toString(missesArr));
-            System.out.print("\nGuess: ");round
+            System.out.print("Misses:" + "\t");
+            printMissedGuesses(missesArr);
 
+            // The user input: Guess
+            System.out.print("\nGuess: ");
             char guess = scan.next().charAt(0);
+            System.out.println("\n");
 
+            // Check if the guess is correct
             Boolean checkGuess = checkGuess(guess, randomWord);
 
-            System.out.println("\n");
-            // System.out.println("Guess:" + guess);
-            // System.out.println("Word:" + randomWord);
-            System.out.println("before if checkGuess: " + Arrays.toString(placeHolder));
-
+            // If the guess is correct, update place holder
             if (checkGuess) {
-                placeHolder = updatePlaceHolder(placeHolder, checkGuess, randomWord);
-                System.out.println("inside if checkGuess: " + Arrays.toString(placeHolder));
+                updatePlaceHolder(placeHolder, guess, randomWord);
 
-            } else {
-                misses++;
-                missesArr[round] = guess;
             }
 
-            System.out.println("after if checkGuess: " + Arrays.toString(placeHolder));
+            // Check if the a wrong guess was entered already, if yes, just continue if not,
+            // continue misses count
+            if (contains(guess, missesArr)) {
+                continue;
+            } else {
+                missesArr[misses] = guess;
 
-            round++;
+                misses++;
+            }
+
+            // Check if the two arrays content are equal to end the game
+            // Arrays.equals compare all the content of it and return if is true or not
+            if (Arrays.equals(placeHolder, randomWord.toCharArray())) {
+                // word:
+                System.out.println("Word: " + randomWord + "\n");
+
+                // good work
+                System.out.println("Good Work");
+
+                // break the game
+                System.exit(0);
+            }
+
+            // If misses is equal to 6, end the game, the user lost the game
+            if (misses == 6) {
+                System.out.println(gallows[misses] + "\n");
+                System.out.println("RIP!" + "\n");
+                System.out.println("The word was: " + randomWord);
+            }
+
         }
 
         scan.close();
     }
 
+    // create a random number to get a random word
     public static String randomWord(String[] words) {
         int randomNum = (int) (Math.random() * words.length);
 
         return words[randomNum];
     }
 
-    public static void printPlaceHolder(char[] placeHolder, int randomWordLength) {
-        System.out.print("\n");
-        System.out.print("Word:" + "\t");
-
-        for (int i = 0; i < placeHolder.length; i++) {
-            if (placeHolder[i] != '_' && placeHolder[i] != 0) {
-                System.out.print(placeHolder[i] + " ");
-
-            } else {
-                placeHolder[i] = '_';
-                System.out.print(placeHolder[i] + " ");
-                // continue;
-            }
-        }
-        // for (int i = 0; i < randomWordLength; i++) {
-        // System.out.print("_ ");
-        // }
-    }
-
+    // checkGuess return true of false
     public static Boolean checkGuess(char guess, String randomWord) {
+        // convert the String randomWord to a char Array to loop through it
         char[] randomWordArray = randomWord.toCharArray();
 
         for (int i = 0; i < randomWordArray.length; i++) {
+            // if the letter is equal the guess return true
             if (randomWordArray[i] == guess) {
                 return true;
             }
         }
-
         return false;
     }
 
-    public static char[] updatePlaceHolder(char[] placeHolder, Boolean checkGuess, String randomWord) {
-        // int index = 0;
-
-        // System.out.print("Word:" + "\t");
+    public static void updatePlaceHolder(char[] placeHolder, char guess, String randomWord) {
         for (int i = 0; i < randomWord.length(); i++) {
-            if (checkGuess) {
-                // System.out.print(randomWord.charAt(i));
-                placeHolder[i] = randomWord.charAt(i);
-                // System.out.println(Arrays.toString(placeHolder));
-                break;
+            if (guess == randomWord.charAt(i)) {
+                // update the place holder
+                placeHolder[i] = guess;
             }
         }
-        return placeHolder;
 
     }
 
-    public static void printMissedGuesses() {
+    public static void printPlaceHolder(char[] placeHolder, int randomWordLength) {
+
+        for (int i = 0; i < placeHolder.length; i++) {
+            // Check if the place holder is not a dash or an empty value
+            // important to remember is to check if a char array has a empty value, has to
+            // check for 0, not null or ' '
+            if (placeHolder[i] != '_' && placeHolder[i] != 0) {
+                System.out.print(placeHolder[i] + " ");
+
+            } else {
+                // if the place holder is empty fill it with a dash
+                placeHolder[i] = '_';
+                System.out.print(placeHolder[i] + " ");
+            }
+        }
+    }
+
+    public static void printMissedGuesses(char[] missesArr) {
+        for (int i = 0; i < missesArr.length; i++) {
+            System.out.print(missesArr[i]);
+        }
+
+    }
+
+    // Stack overflow method to check if an array contains a char value
+    static boolean contains(char c, char[] array) {
+        for (char x : array) {
+            if (x == c) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
