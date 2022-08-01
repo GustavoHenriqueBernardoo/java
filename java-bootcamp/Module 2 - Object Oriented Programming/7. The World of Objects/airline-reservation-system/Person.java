@@ -9,7 +9,7 @@ public class Person {
   private int seatNumber;
 
   // Constructor
-  public Person(String name, String nationality, String dateOfBirth, String[] passport, int seatNumber) {
+  public Person(String name, String nationality, String dateOfBirth, int seatNumber) {
     this.name = name;
     this.nationality = nationality;
     this.dateOfBirth = dateOfBirth;
@@ -81,6 +81,16 @@ public class Person {
 
   public void chooseSeat() {
     this.seatNumber = (int) (Math.random() * 11) + 1;
+  }
+
+  // The toString method(function) is called automatically when you print an
+  // Object in java
+  public String toString() {
+    return "Name: " + this.name + "\n"
+        + "Nationality: " + this.nationality + "\n"
+        + "Date of Birth: " + this.dateOfBirth + "\n"
+        + "Seat Number: " + this.seatNumber + "\n"
+        + "Passport: " + Arrays.toString(this.passport) + "\n";
   }
 
 }
