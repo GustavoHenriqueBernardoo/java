@@ -22,6 +22,7 @@ public class Main {
 
             // airline.setPerson(people[i], i);
             airline.createReservation(people[i]);
+            airline.toString();
         }
 
     }

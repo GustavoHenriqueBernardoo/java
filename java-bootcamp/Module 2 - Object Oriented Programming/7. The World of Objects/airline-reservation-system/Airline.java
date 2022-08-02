@@ -36,4 +36,16 @@ public class Airline {
         + person.getSeatNumber() + ".\n");
   }
 
+  public String toString() {
+    String temp = "";
+
+    System.out.println(Arrays.toString(seats));
+
+    for (int i = 0; i < seats.length; i++) {
+      temp = "Name: ";
+    }
+
+    return temp;
+  }
+
 }
