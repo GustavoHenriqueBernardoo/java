@@ -43,7 +43,7 @@ public class Machine {
             temp += "\t";
             for (int j = 0; j < this.items[i].length; j++) {
 
-                temp += this.items[i][j].toString();
+                temp += this.items[i][j].toString() + " ";
             }
             temp += "\n\n";
         }

@@ -1,7 +1,10 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Scanner scan = new Scanner(System.in);
 
         System.out.println("\t************************************************");
         System.out.println("\t             WELCOME TO JAVA DRINKS!            ");
@@ -17,21 +20,30 @@ public class Main {
 
         Machine machine = new Machine(items);
 
-        Item item = machine.getItems(0, 0);
+        while (true) {
+            System.out.print("Pick a row: ");
+            int pickRow = scan.nextInt();
 
-        item.setPrice(9.99);
-        // item.setName("Dolly Guarana");
-        item.setQuantity(10);
+            System.out.print("Pick a spot in the row: ");
+            int pickSpot = scan.nextInt();
 
-        machine.setItems(item, 0, 0);
+            // Even though I am declaring a variable here, I am calling the method, so it's
+            // counts
+            Boolean sold = machine.dispense(pickRow, pickSpot);
+            System.out.println("\n" + machine);
 
-        machine.dispense(0, 0);
-        machine.dispense(0, 0);
-        // System.out.println(machine.getItems(0, 0) + "\n");
+            if (sold == true) {
+                System.out.println("\nEnjoy your drink! Press 1 to purchase another: ");
+            } else {
+                System.out.println("\nSorry, we're out of this item. Press 1 to purchase another: ");
+            }
 
-        // Item item = new Item(source)
+            int press1 = scan.nextInt();
+            if (press1 != 1) {
+                break;
+            }
 
-        System.out.println(machine);
+        }
 
     }
 }
