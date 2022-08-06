@@ -9,11 +9,11 @@ public class Machine {
             }
         }
     }
-    
+
     public Item getItem(int row, int spot) {
         return new Item(this.items[row][spot]);
     }
-    
+
     public void setItem(Item item, int row, int spot) {
         this.items[row][spot] = new Item(item);
     }
@@ -22,7 +22,7 @@ public class Machine {
         if (this.items[row][spot].getQuantity() > 0) {
             items[row][spot].setQuantity(items[row][spot].getQuantity() - 1);
             return true;
-        } 
+        }
         return false;
     }
 

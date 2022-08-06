@@ -2,15 +2,18 @@ import java.util.Arrays;
 
 public class Matrix {
     public static void main(String[] args) {
-        int[][] matrix = { //matrix means 2d array
-             {0, 0, 0},
-             {0, 0, 0},
-             {0, 0, 0}
+        int[][] matrix = { // matrix means 2d array
+                { 0, 0, 0 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
         };
 
-        for (int i = 0; i < matrix.length; i--) {
-            for (int j = 0; j < matrix.length; i++) {
-                matrix[i][j] = i;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (j == 0) {
+                    continue;
+                }
+                matrix[i][j] = j;
             }
         }
         printMatrix(matrix);
