@@ -27,7 +27,8 @@ public class Main {
             System.out.print("Enter the spot number of the car you want to buy: ");
             if (scan.hasNextInt()) {
                 int spot = scan.nextInt();
-                if (spot < cars.length) {
+
+                if (spot <= dealership.getLength() - 1) {
                     if (dealership.getCar(spot) == null) {
                         System.out.println("Spot " + spot + " is empty.");
                         continue;
@@ -44,9 +45,9 @@ public class Main {
                 System.out.println("\nInvalid Input");
                 continue;
             }
+            scan.nextLine();
 
             System.out.println("Type Yes to continue shopping");
-            scan.nextLine();
             String continueShopping = scan.nextLine();
             if (continueShopping.equalsIgnoreCase("yes")) {
                 continue;

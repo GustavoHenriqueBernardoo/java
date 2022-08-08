@@ -17,7 +17,10 @@ public class Dealership {
     public Car getCar(int index) {
 
         return this.cars[index] == null ? null : new Car(this.cars[index]);
+    }
 
+    public int getLength() {
+        return this.cars.length;
     }
 
     public void sell(int index) {

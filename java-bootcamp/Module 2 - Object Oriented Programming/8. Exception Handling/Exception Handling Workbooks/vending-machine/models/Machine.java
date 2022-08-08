@@ -1,4 +1,5 @@
 package models;
+
 public class Machine {
     private Item[][] items;
 
@@ -10,16 +11,27 @@ public class Machine {
             }
         }
     }
-    
+
     public Item getItem(int row, int spot) {
         return new Item(this.items[row][spot]);
     }
-    
+
+    public int getLength() {
+        return items.length - 1;
+    }
+
+    public int getRowLength() {
+        return items[0].length - 1;
+    }
+
     public void setItem(Item item, int row, int spot) {
         this.items[row][spot] = new Item(item);
     }
 
     public void dispense(int row, int spot) {
+        if (items[row][spot].getQuantity() == 0) {
+            throw new IllegalArgumentException("You cannot call dispense if the items has not quantity");
+        }
         items[row][spot].setQuantity(items[row][spot].getQuantity() - 1);
     }
 
