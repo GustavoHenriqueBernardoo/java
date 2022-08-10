@@ -1,80 +1,78 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import models.Contact;
+import models.ContactManager;
 
 public class Main {
+    static ContactManager contactManager = new ContactManager();
+
     public static void main(String[] args) {
 
         try {
-            Contact contact = new Contact("Gustavo", "03/21/1994", "+55 (19) 9999-9999");
+            loadContacts("contacts.txt");
 
-            // System.out.println(contact.toAge("03/21/1990"));
+            System.out.println(contactManager);
 
-            Contact contact2 = new Contact(contact);
-
-            contact2.setName("I am a new contact");
-            contact2.setDateOfBirth("01/01/1998");
-
-            System.out.println(contact);
-            System.out.println(contact2);
-
-        } catch (ParseException e) {
-            // TODO: handle exception
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-        } finally {
-            System.out.println("Process completed");
         }
-
-        // String dateOfBirth = "03-21-1994";
-        // SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-
-        // String newDate = formatter.format(new Date());
-
-        // Date date;
-        // try {
-        // Date currentDate = formatter.parse(newDate);
-        // long currentDateInt = currentDate.getTime();
-
-        // date = formatter.parse(dateOfBirth);
-        // long dateInt = date.getTime();
-
-        // long milliseconds = currentDateInt - dateInt;
-
-        // long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
-
-        // System.out.println(days / 365);
-        // } catch (ParseException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
 
     }
 
-    /**
-     * Name: manageContacts
-     *
-     * Inside the function:
-     * • 1. Starts a new instance of Scanner;
-     * • 2. In an infinite loop, the user can choose to a) add b) remove a contact
-     * c) exit.
-     * • case a: ask for the name, phone number and birthDate.
-     * • case b: ask who they'd like to remove.
-     * • case c: break the loop.
-     * • 3. close Scanner.
-     */
+    public static void loadContacts(String fileName) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(fileName);
+        Scanner scan = new Scanner(fis);
 
-    /**
-     * Name: loadContacts
-     * 
-     * @param fileName (String)
-     * @throws FileNotFoundException
-     *
-     *                               Inside the function:
-     *                               • 1. loads contacts from <fileName>;
-     *                               • 2. From the manager object, it adds all
-     *                               contacts to the contacts list.
-     *                               Hint: use scan.next to grab the next String
-     *                               separated by white space.
-     */
+        while (scan.hasNextLine()) {
+            try {
+                Contact contact = new Contact(scan.next(), scan.next(), scan.next());
+                contactManager.addContact(contact);
+
+            } catch (ParseException e) { // Parse Exception
+                System.out.println(e.getMessage());
+
+            }
+        }
+
+        scan.close();
+    }
 
 }
+
+// try {
+
+// Contact contact = new Contact("name", "dateOfBirth", "phoneNumber");
+
+// Contact[] contacts = new Contact[] {
+// new Contact("Ryan", "11/11/1992", "6135012424"),
+// new Contact("Gio", "11/11/1993", "6477092344"),
+// new Contact("Thomas", "11/11/1994", "8192256979")
+// };
+
+// ContactManager contactManager = new ContactManager();
+
+// for (int i = 0; i < contacts.length; i++) {
+// contactManager.addContact(contacts[i]);
+// }
+
+// contactManager.removeContact("Gio");
+
+// contactManager.addContact(new Contact("Gustavo", "03/21/1994", "9981555"));
+
+// contactManager.removeContact("Ryan");
+// contactManager.removeContact("Thomas");
+// contactManager.removeContact("Gustavo");
+
+// System.out.println(contactManager);
+
+// } catch (ParseException e) {
+// // TODO: handle exception
+// System.out.println(e.getMessage());
+// } finally {
+// System.out.println("Process completed");
+// }
