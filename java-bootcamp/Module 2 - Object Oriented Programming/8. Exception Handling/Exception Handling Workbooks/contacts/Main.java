@@ -1,17 +1,29 @@
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import models.Contact;
 
 public class Main {
     public static void main(String[] args) {
 
-        Contact g = new Contact("name", "03/21/1994", 55);
+        try {
+            Contact contact = new Contact("Gustavo", "03/21/1994", "+55 (19) 9999-9999");
 
-        System.out.println(g);
+            // System.out.println(contact.toAge("03/21/1990"));
+
+            Contact contact2 = new Contact(contact);
+
+            contact2.setName("I am a new contact");
+            contact2.setDateOfBirth("01/01/1998");
+
+            System.out.println(contact);
+            System.out.println(contact2);
+
+        } catch (ParseException e) {
+            // TODO: handle exception
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Process completed");
+        }
 
         // String dateOfBirth = "03-21-1994";
         // SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");

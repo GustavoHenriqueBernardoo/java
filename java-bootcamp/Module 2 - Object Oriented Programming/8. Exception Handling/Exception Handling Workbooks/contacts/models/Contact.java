@@ -5,61 +5,89 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-/*
- * Research how to create an object of the SimpleDateFormat class.
-
-Use the SimpleDateFormat object to parse() a Date from the birthDate String.
-
-Assume the birthDate follows the MM/dd/yyyy format.
-Get the current time as a Date object.
-
-Find a method from the Date class that returns milliseconds since 1970 from each date.
-
-Get the difference between both time units. This difference is the person's age in milliseconds.
-
-Research how to use the TimeUnit class to convert from milliseconds to days. Then, divide by 365 to get the years.
-
-Typecast the result to int and update the age field.
- */
-
 public class Contact {
   private String name;
+  private String dateOfBirth;
+  private String phoneNumber;
   private int age;
-  private int dateOfBirth;
-  private int phoneNumber;
 
-  public Contact(String name, String dateOfBirth, int phoneNumber) {
-    System.out.println(dateOfBirth);
+  // Constructor
+  public Contact(String name, String dateOfBirth, String phoneNumber) throws ParseException {
     this.name = name;
-    this.dateOfBirth = calculateAge(dateOfBirth);
+    this.phoneNumber = phoneNumber;
+    this.dateOfBirth = dateOfBirth;
+    this.age = toAge(dateOfBirth);
+
+  }
+
+  // copy Constructor
+  public Contact(Contact source) {
+    this.name = source.name;
+    this.phoneNumber = source.phoneNumber;
+    this.dateOfBirth = source.dateOfBirth;
+    this.age = source.age;
+
+  }
+
+  // getters
+  public String getName() {
+    return name;
+  }
+
+  public String getDateOfBirth() {
+    return dateOfBirth;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  // setters
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
-  public int calculateAge(String dateOfBirth) {
-    // String dateOfBirth = "03-21-1994";
-    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+  public void setDateOfBirth(String dateOfBirth) throws ParseException {
+    this.dateOfBirth = dateOfBirth;
+    setAge(toAge(dateOfBirth));
+  }
 
-    String newDate = formatter.format(new Date());
+  private void setAge(int age) throws ParseException {
+    this.age = toAge(dateOfBirth);
+  }
 
-    try {
-      Date currentDate = formatter.parse(newDate);
-      long currentDateInt = currentDate.getTime();
+  public int toAge(String dateOfBirth) throws ParseException {
+    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    formatter.setLenient(false);
 
-      Date date = formatter.parse(dateOfBirth);
-      long dateInt = date.getTime();
+    Date stringToDate = formatter.parse(dateOfBirth); // convert String to Date
+    long dateToMillis = stringToDate.getTime(); // getTime() returns the number of milliseconds since 1970
 
-      long milliseconds = currentDateInt - dateInt;
+    long diff = new Date().getTime() - dateToMillis; // new Date get the current time
 
-      int days = (int) TimeUnit.MILLISECONDS.toDays(milliseconds);
+    // TimeUnit class converts from milliseconds to days
+    int age = (int) TimeUnit.MILLISECONDS.toDays(diff) / 365; // then divide by 365 to get the age in years
 
-      System.out.println(days / 365);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      // e.printStackTrace();
-      System.out.println(e.getMessage());
-    }
+    return age;
+  }
 
-    return 0;
+  public String toString() {
+    return "Name: " + this.name + "\n" +
+
+        "Phone number: " + this.phoneNumber + "\n" +
+
+        "Birth Date: " + this.dateOfBirth + "\n" +
+
+        "Age: " + this.age + " year old\n";
   }
 
 }
