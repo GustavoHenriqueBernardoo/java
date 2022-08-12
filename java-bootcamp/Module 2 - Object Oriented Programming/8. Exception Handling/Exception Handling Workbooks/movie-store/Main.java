@@ -1,34 +1,46 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Scanner;
+
+import javax.imageio.stream.ImageInputStream;
+
 import models.Movie;
 import models.Store;
 
 public class Main {
+
+    static Store store = new Store();
+
     public static void main(String[] args) {
         System.out.println("\n********************JAVA VIDEO STORE********************\n");
 
-        /*
-         * The Shawshank Redemption--Blue-Ray--9.2
-         * 
-         * The Godfather--Blue-Ray--9.1
-         * 
-         * The Godfather: Part II--DVD--9.0
-         */
-        Movie[] movies = new Movie[] {
-                new Movie("The Shawshank Redemption", "Blue-Ray", 9.2),
-                new Movie("The Godfather", "Blue-Ray", 9.1),
-                new Movie("The Godfather: Part II", "DVD", 9.0),
-        };
+        // Movie[] movies = new Movie[] {
+        // new Movie("The Shawshank Redemption", "Blue-Ray", 9.2),
+        // new Movie("The Godfather", "Blue-Ray", 9.1),
+        // new Movie("The Godfather: Part II", "DVD", 9.0),
+        // };
+        //
+        // for (int i = 0; i < movies.length; i++) {
+        // store.addMovie(movies[i]);
+        // }
+        //
+        // store.action("The Godfather", "rent");
+        // store.action("The Godfather: Part II", "rent");
 
-        var store = new Store();
+        // =============================================================================
 
-        for (int i = 0; i < movies.length; i++) {
-            store.addMovie(movies[i]);
+        try {
+            loadMovies("movies.txt");
+
+            System.out.println("MOVIES LOADED\n\n");
+
+            System.out.println(store);
+        } catch (FileNotFoundException e) {
+            // TODO: handle exception
+            System.out.println(e.getMessage());
         }
-
-        store.action("The Godfather", "rent");
-        store.action("The Godfather: Part II", "rent");
-        store.action("The Godfather", "sell");
-
-        System.out.println(store);
 
     }
 
@@ -57,5 +69,21 @@ public class Main {
      *                               Hint: You will need to 'split' a String into
      *                               three Strings.
      */
+
+    public static void loadMovies(String fileName) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(fileName);
+        Scanner scanDoc = new Scanner(fis);
+
+        while (scanDoc.hasNextLine()) {
+            String movieLine = scanDoc.nextLine();
+            String[] stringArr = movieLine.split("--");
+
+            Movie movie = new Movie(stringArr[0], stringArr[1], Double.parseDouble(stringArr[2]));
+
+            store.addMovie(movie);
+
+        }
+
+    }
 
 }
