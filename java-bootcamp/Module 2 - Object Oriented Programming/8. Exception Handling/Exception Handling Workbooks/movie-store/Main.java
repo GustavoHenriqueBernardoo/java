@@ -36,10 +36,13 @@ public class Main {
 
             System.out.println("MOVIES LOADED\n\n");
 
-            System.out.println(store);
+            manageMovies();
+
         } catch (FileNotFoundException e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Process completed");
         }
 
     }
@@ -55,6 +58,38 @@ public class Main {
      * • case c: ask for the name and return.
      * • 3. call close() from the Scanner object.
      */
+
+    public static void manageMovies() {
+        Scanner scan = new Scanner(System.in);
+
+        while (true) {
+            System.out.println(store);
+
+            System.out.println("\nWould you like to:  \n\ta) purchase\n\tb) rent \n\tc) return");
+            char userInput = scan.nextLine().charAt(0);
+
+            if (!(userInput != 'a' || userInput != 'b' || userInput != 'c')) {
+                scan.close();
+                break;
+            }
+
+            System.out.println("Enter the title of the movie: ");
+            String movieName = scan.nextLine();
+
+            switch (userInput) {
+                case 'a':
+                    store.action(movieName, "sell");
+                    break;
+                case 'b':
+                    store.action(movieName, "rent");
+                    break;
+                case 'c':
+                    store.action(movieName, "return");
+                    break;
+            }
+        }
+
+    }
 
     /**
      * Name: loadMovies
@@ -75,15 +110,15 @@ public class Main {
         Scanner scanDoc = new Scanner(fis);
 
         while (scanDoc.hasNextLine()) {
-            String movieLine = scanDoc.nextLine();
-            String[] stringArr = movieLine.split("--");
+            String line = scanDoc.nextLine();
+            String[] word = line.split("--");
 
-            Movie movie = new Movie(stringArr[0], stringArr[1], Double.parseDouble(stringArr[2]));
+            Movie movie = new Movie(word[0], word[1], Double.parseDouble(word[2]));
 
             store.addMovie(movie);
 
         }
-
+        scanDoc.close();
     }
 
 }
