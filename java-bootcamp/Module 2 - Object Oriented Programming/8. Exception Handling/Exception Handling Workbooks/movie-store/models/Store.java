@@ -17,6 +17,15 @@ public class Store {
     return new Movie(movies.get(index));
   }
 
+  public Movie getMovie(String nameMovie) {
+    for (int i = 0; i < movies.size(); i++) {
+      if (movies.get(i).getName().equals(nameMovie))
+        return new Movie(movies.get(i));
+    }
+
+    return null;
+  }
+
   public void setMovie(int index, Movie movie) {
     movies.set(index, new Movie(movie));
   }
