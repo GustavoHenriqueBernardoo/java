@@ -27,6 +27,10 @@ public class Cart {
     }
 
     public void removeItem(String name) {
+        if (items.isEmpty()) {
+            throw new IllegalStateException("You cannot remove any items from cart because it's already empty");
+        }
+
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getName().equals(name)) {
                 items.remove(i);
@@ -35,6 +39,10 @@ public class Cart {
     }
 
     public String checkout() {
+        if (items.isEmpty()) {
+            throw new IllegalStateException("You can't call checkout if the cart is empty");
+        }
+
         double subTotal = 0;
         for (int i = 0; i < items.size(); i++) {
             subTotal += items.get(i).getPrice();
@@ -50,10 +58,9 @@ public class Cart {
     }
 
     public String toString() {
-        String temp = "";
+        String temp = "\n";
 
         for (int index = 0; index < items.size(); index++) {
-            temp += "\n";
             temp += items.get(index).toString();
             temp += "\n";
         }
