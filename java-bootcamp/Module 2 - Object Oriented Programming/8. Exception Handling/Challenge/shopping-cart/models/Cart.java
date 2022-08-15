@@ -19,11 +19,12 @@ public class Cart {
     }
 
     public boolean add(Item item) {
-        if (!(items.contains(item))) {
-            items.add(new Item(item));
-
+        if (items.contains(item)) {
+            return false;
         }
-        return items.contains(item) ? true : false;
+
+        items.add(new Item(item));
+        return true;
     }
 
     public void removeItem(String name) {

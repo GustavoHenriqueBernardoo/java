@@ -16,11 +16,15 @@ public class Main {
 
         try {
             loadItem("products.txt");
+            manageItems();
 
-            System.out.println(store);
         } catch (FileNotFoundException e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
+        } finally {
+            System.out.println("\n\t******************************JAVA GROCERS******************************\n");
+
+            System.out.println(store);
         }
 
     }
@@ -36,6 +40,41 @@ public class Main {
      * • case c: prints the receipt and closes Scanner.
      * • Prints the updated shopping cart.
      */
+
+    public static void manageItems() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("\n\t******************************JAVA GROCERS******************************\n");
+
+        System.out.println(store);
+
+        while (true) {
+            System.out.println("Options: \n\ta) Add to cart\n\tb) Remove from cart \n\tc) Checkout");
+            String userInput = scan.nextLine();
+            switch (userInput) {
+                case "a":
+                    System.out.print("\nChoose an aisle number between: 1 – 7: ");
+                    int aisle = scan.nextInt() - 1;
+                    scan.nextLine();
+                    System.out.print("Choose an item number between: 1 – 3: ");
+                    int itemNumber = scan.nextInt() - 1;
+                    scan.nextLine();
+
+                    Item item = store.getItem(aisle, itemNumber);
+
+                    if (!cart.add(item)) {
+                        System.out.println(item.getName() + " is already in your shopping cart.\n");
+                    } else {
+                        System.out.println(item.getName() + " was added to your shopping cart.\n");
+
+                    }
+                    break;
+                case "b":
+
+                    break;
+            }
+        }
+    }
 
     public static void loadItem(String fileName) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(fileName);
@@ -61,24 +100,4 @@ public class Main {
         }
 
     }
-
-    /**
-     * Name: loadItems
-     * 
-     * @param fileName (String)
-     * @throws FileNotFoundException
-     *
-     *                               Inside the function:
-     *                               1. loads items from <fileName>.txt.
-     *                               • while loop runs through every line in
-     *                               <fileName>
-     *                               • scan.nextLine() picks up the entire line.
-     *                               • splits each String using the ";" separator.
-     *                               • splits both fields in each String using the
-     *                               "=" separator.
-     *                               • Parse each price into a Double.
-     *                               2. adds all items to the store object's items
-     *                               field.
-     */
-
 }
