@@ -33,7 +33,7 @@ public class Cart {
         }
 
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getName().equals(name)) {
+            if (items.get(i).getName().equalsIgnoreCase(name)) {
                 items.remove(i);
             }
         }
@@ -55,7 +55,6 @@ public class Cart {
                 "\tSubtotal: $" + subTotal + "\n" +
                 "\tTax: $" + tax + "\n" +
                 "\tTotal: $" + total + "\n";
-
     }
 
     public String toString() {
@@ -67,6 +66,10 @@ public class Cart {
         }
 
         return temp;
+    }
+
+    public boolean isEmpty() {
+        return items.isEmpty() ? true : false;
     }
 
     /**
