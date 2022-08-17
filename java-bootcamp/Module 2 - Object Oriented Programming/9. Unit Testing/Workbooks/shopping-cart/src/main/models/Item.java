@@ -5,7 +5,7 @@ public class Item {
     private double price;
 
     public Item(String name, double price) {
-        
+
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Name cannot be null or blank");
         }
@@ -42,6 +42,20 @@ public class Item {
             throw new IllegalArgumentException("Price cannot be less than zero");
         }
         this.price = price;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Item)) {
+            return false;
+        }
+
+        Item item = (Item) obj;
+
+        return this.name.equals(item.getName()) &&
+                this.price == item.getPrice();
     }
 
     public String toString() {
