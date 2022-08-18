@@ -1,5 +1,6 @@
 package src.main.models;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Team {
@@ -14,6 +15,22 @@ public class Team {
     private String[] chasers;
 
     public Team(String house, String keeper, String seeker, String[] chasers) {
+        if (house == null || keeper == null || seeker == null) {
+            throw new IllegalArgumentException("field values cannot be null");
+        }
+
+        if (house.isBlank() || keeper.isBlank() || seeker.isBlank()) {
+            throw new IllegalArgumentException("field values cannot be blank");
+        }
+
+        if (hasNull(chasers) || hasBlank(chasers)) {
+            throw new IllegalArgumentException("Array chasers cannot be null/blank");
+        }
+
+        if (chasers.length != 3) {
+            throw new IllegalArgumentException("Chasers length has to be equal to 3");
+        }
+
         this.house = house;
         this.keeper = keeper;
         this.seeker = seeker;
@@ -67,19 +84,38 @@ public class Team {
     }
 
     public void setHouse(String house) {
+        checkParam(house);
         this.house = house;
     }
 
     public void setKeeper(String keeper) {
+        checkParam(keeper);
         this.keeper = keeper;
     }
 
     public void setSeeker(String seeker) {
+        checkParam(seeker);
         this.seeker = seeker;
     }
 
     public void setChasers(String[] chase) {
         this.chasers = Arrays.copyOf(chase, chase.length);
+    }
+
+    public void checkParam(String param) {
+        if (param == null || param.isBlank()) {
+            throw new IllegalArgumentException(param + " cannot be null or blank");
+        }
+    }
+
+    public static boolean hasNull(String[] chasers) {
+        return Arrays.stream(chasers)
+                .anyMatch(chaser -> chaser == null);
+    }
+
+    public static boolean hasBlank(String[] chasers) {
+        return Arrays.stream(chasers)
+                .anyMatch(chaser -> chaser.isBlank());
     }
 
     public String toString() {
