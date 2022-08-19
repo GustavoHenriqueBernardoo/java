@@ -9,14 +9,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Team gryffindor = new Team("GRYFFINDOR", "Oliver", "Harry",
+        Team home = new Team("GRYFFINDOR", "Oliver", "Harry",
                 new String[] { "Angelina", "Ginny", "Katie" });
 
-        Team slytherin = new Team("SLYTHERIN", "Vincent", "Draco",
+        Team away = new Team("SLYTHERIN", "Vincent", "Draco",
                 new String[] { "Bridget", "Harper", "Malcolm" });
 
-        System.out.println(gryffindor);
-        System.out.println(slytherin);
+        Game game = new Game(home, away);
+
+        game.getScore(home);
+
+        game.setScore(home, 50);
+
     }
 
     /**

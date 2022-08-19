@@ -118,6 +118,22 @@ public class Team {
                 .anyMatch(chaser -> chaser.isBlank());
     }
 
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Team)) {
+            return false;
+        }
+
+        Team team = (Team) obj;
+
+        return this.house.equals(team.house) &&
+                this.keeper.equals(team.keeper) &&
+                this.seeker.equals(team.seeker) &&
+                Arrays.toString(this.chasers).equals(Arrays.toString(team.chasers));
+    }
+
     public String toString() {
         return "House: " + this.house + "\n" +
                 "Keeper: " + this.keeper + "\n" +
