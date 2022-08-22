@@ -2,6 +2,7 @@ package src.main.models;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Team {
 
@@ -60,16 +61,6 @@ public class Team {
     public String[] getChaser() {
         return Arrays.copyOf(chasers, chasers.length);
     }
-
-    /*
-     * FREQUENTLY ASKED QUESTIONS:
-     * 
-     * Question: the constants are final, so why can't we make them public? It's not
-     * possible for the caller to update them.
-     * Answer: Even if the constant is final, I prefer to expose a method instead of
-     * the variable. But if you want to expose the variable, that's also correct.
-     * 
-     */
 
     public static String getPositionChaser() {
         return POSITION_CHASER;
@@ -132,6 +123,10 @@ public class Team {
                 this.keeper.equals(team.keeper) &&
                 this.seeker.equals(team.seeker) &&
                 Arrays.toString(this.chasers).equals(Arrays.toString(team.chasers));
+    }
+
+    public int hashCode() {
+        return Objects.hash(this.house, this.keeper, this.seeker, Arrays.toString(this.chasers));
     }
 
     public String toString() {

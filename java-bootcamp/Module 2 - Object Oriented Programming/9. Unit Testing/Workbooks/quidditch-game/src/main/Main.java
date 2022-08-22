@@ -1,65 +1,83 @@
 package src.main;
 
+import java.util.Scanner;
+
 import src.main.models.Game;
 import src.main.models.Team;
 
 public class Main {
 
-    static Game game;
+        static final String TEAMS_FILE = "src/main/teams.txt";
+        static final String PLAYS_FILE = "src/main/plays.txt";
 
-    public static void main(String[] args) {
+        static Game game;
 
-        Team home = new Team("GRYFFINDOR", "Oliver", "Harry",
-                new String[] { "Angelina", "Ginny", "Katie" });
+        public static void main(String[] args) {
 
-        Team away = new Team("SLYTHERIN", "Vincent", "Draco",
-                new String[] { "Bridget", "Harper", "Malcolm" });
+                Team home = new Team("GRYFFINDOR", "Oliver", "Harry",
+                                new String[] { "Angelina", "Ginny", "Katie" });
 
-        Game game = new Game(home, away);
+                Team away = new Team("SLYTHERIN", "Vincent", "Draco",
+                                new String[] { "Bridget", "Harper", "Malcolm" });
 
-        game.getScore(home);
+                Game game = new Game(home, away);
 
-        game.setScore(home, 50);
+                System.out.println(game.getScore(home));
 
-    }
+                game.setScore(home, 50);
+                System.out.println(game.getScore(home));
 
-    /**
-     * Function name: getData
-     * 
-     * @return (String[][])
-     * @throws FileNotFoundException
-     * 
-     *                               Inside the function:
-     *                               1. Returns data from TEAMS_FILE as a String[][]
-     *                               array
-     */
+                System.out.println(game.getTeam("SLYTHERIN"));
+                System.out.println(game.gameCount);
 
-    /**
-     * Function name: startGame
-     * 
-     * Inside the function:
-     * 1. Grabs each play from plays.txt and calls game.simulate(play);
-     * 2. Prints the return from game.simulate(play)
-     * - println("\n" + <return> + "\n");
-     */
+                getData();
 
-    /**
-     * Function name: printResult()
-     * 
-     * Inside the function:
-     * 1. Prints the final score: println("\nGRYFFINDOR: " + <gryffindor score> + "
-     * SLYTHERIN: " + <slytherin score>);
-     * 2. Prints the winner: println("\n" + <winner team name> + " WINS!");
-     * 
-     */
+        }
 
-    /**
-     * Function name: wait
-     * 
-     * @param sec
-     * 
-     *            Inside the function:
-     *            1. Make the code sleep for X seconds.
-     */
+        public static void getData() {
+                Scanner scanDoc = new Scanner(TEAMS_FILE);
+                while (scanDoc.hasNextLine()) {
+                        System.out.println(scanDoc.nextLine());
+                }
+        }
+
+        /**
+         * Function name: getData
+         * 
+         * @return (String[][])
+         * @throws FileNotFoundException
+         * 
+         *                               Inside the function:
+         *                               1. Returns data from TEAMS_FILE as a String[][]
+         *                               array
+         */
+
+        /**
+         * Function name: startGame
+         * 
+         * Inside the function:
+         * 1. Grabs each play from plays.txt and calls game.simulate(play);
+         * 2. Prints the return from game.simulate(play)
+         * - println("\n" + <return> + "\n");
+         */
+
+        /**
+         * Function name: printResult()
+         * 
+         * Inside the function:
+         * 1. Prints the final score: println("\nGRYFFINDOR: " + <gryffindor score> + "
+         * SLYTHERIN: " + <slytherin score>);
+         * 2. Prints the winner: println("\n" + <winner team name> + " WINS!");
+         * 
+         */
+
+        /**
+         * Function name: wait
+         * 
+         * @param sec
+         * 
+         *            Inside the function:
+         *            1. Make the code sleep for X seconds.
+         */
 
 }
