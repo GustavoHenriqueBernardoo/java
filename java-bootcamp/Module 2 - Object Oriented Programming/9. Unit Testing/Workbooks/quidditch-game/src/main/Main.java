@@ -1,6 +1,12 @@
 package src.main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+import javax.print.attribute.standard.PrinterLocation;
 
 import src.main.models.Game;
 import src.main.models.Team;
@@ -13,64 +19,77 @@ public class Main {
         static Game game;
 
         public static void main(String[] args) {
-
-                Team home = new Team("GRYFFINDOR", "Oliver", "Harry",
-                                new String[] { "Angelina", "Ginny", "Katie" });
-
-                Team away = new Team("SLYTHERIN", "Vincent", "Draco",
-                                new String[] { "Bridget", "Harper", "Malcolm" });
-
-                Game game = new Game(home, away);
-
-                System.out.println(game.getScore(home));
-
-                game.setScore(home, 50);
-                System.out.println(game.getScore(home));
-
-                System.out.println(game.getTeam("SLYTHERIN"));
-                System.out.println(game.gameCount);
-
-                getData();
+                try {
+                        String[][] data = getData();
+                        game = new Game(
+                                        new Team(data[0][0], data[0][1], data[0][2],
+                                                        new String[] { data[0][3], data[0][4], data[0][5] }),
+                                        new Team(data[1][0], data[1][1], data[1][2],
+                                                        new String[] { data[1][3], data[1][4], data[1][5] }));
+                        startGame();
+                        printResult();
+                } catch (FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                }
 
         }
 
-        public static void getData() {
-                Scanner scanDoc = new Scanner(TEAMS_FILE);
-                while (scanDoc.hasNextLine()) {
-                        System.out.println(scanDoc.nextLine());
+        public static String[][] getData() throws FileNotFoundException {
+                FileInputStream fis = new FileInputStream(TEAMS_FILE);
+                Scanner scanDoc = new Scanner(fis);
+
+                String[][] data = new String[2][6];
+
+                for (int i = 0; scanDoc.hasNextLine(); i++) {
+                        String line = scanDoc.nextLine();
+                        String[] item = line.split(",");
+                        for (int j = 0; j < item.length; j++) {
+                                data[i][j] = item[j];
+                        }
+                }
+                scanDoc.close();
+                return data;
+        }
+
+        public static void startGame() throws FileNotFoundException {
+                FileInputStream fis = new FileInputStream(PLAYS_FILE);
+                Scanner scanFile = new Scanner(fis);
+
+                String[][] data = getData();
+
+                while (scanFile.hasNextLine()) {
+                        String play = scanFile.nextLine();
+                        String simulate = game.simulate(play);
+                        System.out.println("\n" + simulate + "\n");
+                        try {
+                                wait(3);
+                        } catch (InterruptedException e) {
+                                System.out.println(e.getMessage());
+                        }
+                }
+
+                scanFile.close();
+        }
+
+        public static void printResult() {
+                Team gryff = game.getTeam("GRYFFINDOR");
+                Team slyth = game.getTeam("SLYTHERIN");
+                int home = game.getScore(gryff);
+                int away = game.getScore(slyth);
+
+                System.out.println("\nGRYFFINDOR: " + home + " X SLYTHERIN: " + away);
+
+                if (home > away) {
+                        System.out.println("\n" + gryff.getHouse() + " WINS!");
+                } else {
+                        System.out.println("\n" + slyth.getHouse() + " WINS!");
+
                 }
         }
 
-        /**
-         * Function name: getData
-         * 
-         * @return (String[][])
-         * @throws FileNotFoundException
-         * 
-         *                               Inside the function:
-         *                               1. Returns data from TEAMS_FILE as a String[][]
-         *                               array
-         */
-
-        /**
-         * Function name: startGame
-         * 
-         * Inside the function:
-         * 1. Grabs each play from plays.txt and calls game.simulate(play);
-         * 2. Prints the return from game.simulate(play)
-         * - println("\n" + <return> + "\n");
-         */
-
-        /**
-         * Function name: printResult()
-         * 
-         * Inside the function:
-         * 1. Prints the final score: println("\nGRYFFINDOR: " + <gryffindor score> + "
-         * SLYTHERIN: " + <slytherin score>);
-         * 2. Prints the winner: println("\n" + <winner team name> + " WINS!");
-         * 
-         */
-
+        public static void wait(int sec) throws InterruptedException {
+                TimeUnit.SECONDS.sleep(sec);
+        }
         /**
          * Function name: wait
          * 

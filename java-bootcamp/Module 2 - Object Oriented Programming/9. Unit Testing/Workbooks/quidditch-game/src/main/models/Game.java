@@ -36,6 +36,14 @@ public class Game {
 
   }
 
+  public static int getQueafflePoints() {
+    return QUEAFFLE_POINTS;
+  }
+
+  public static int getSnitchPoint() {
+    return SNITCH_POINT;
+  }
+
   public String getPlaceHolder(String play) {
     return play.substring(play.indexOf("<") + 1, play.indexOf(">"));
   }
@@ -45,49 +53,40 @@ public class Game {
 
   }
 
-  public static int getQueafflePoints() {
-    return QUEAFFLE_POINTS;
-  }
-
-  public static int getSnitchPoint() {
-    return SNITCH_POINT;
-  }
-
   public void quaffleScore(Team team) {
-    setScore(team, getScore(team) + getQueafflePoints());
+    this.setScore(team, this.getScore(team) + QUEAFFLE_POINTS);
   }
 
   public void catchSnitch(Team team) {
-    setScore(team, getScore(team) + getSnitchPoint());
-  }
-
-  public String simulate(String play) {
-    Team randomTeam = getRandomTeam();
-    String placeholder = getPlaceHolder(play);
-    String value = "";
-
-    if (placeholder.equals(randomTeam.getPositionChaser())) {
-      quaffleScore(randomTeam);
-      value = randomTeam.getChaser()[random(randomTeam.getChaser().length)];
-    } else if (placeholder.equals(randomTeam.getPositionSeeker())) {
-      catchSnitch(randomTeam);
-      value = randomTeam.getSeeker();
-    } else if (placeholder.equals(randomTeam.getKeeper())) {
-      value = randomTeam.getKeeper();
-    }
-
-    return replacePlaceHolder(play, placeholder, value);
+    this.setScore(team, this.getScore(team) + SNITCH_POINT);
   }
 
   public Team getRandomTeam() {
-    Object[] teamArr = this.scoreboard.keySet().toArray();
-
-    return (Team) teamArr[random(teamArr.length)];
+    Object[] teams = scoreboard.keySet().toArray();
+    return (Team) teams[random(teams.length)];
 
   }
 
   public int random(int range) {
-    return (int) (Math.random() * range) - 1;
+    return (int) (Math.random() * range);
+  }
+
+  public String simulate(String play) {
+    String placeholder = getPlaceHolder(play);
+    Team randomTeam = getRandomTeam();
+    String value = "";
+
+    if (placeholder.equals(Team.getPositionChaser())) {
+      quaffleScore(randomTeam);
+      value = randomTeam.getChaser()[random(randomTeam.getChaser().length)];
+    } else if (placeholder.equals(Team.getPositionSeeker())) {
+      catchSnitch(randomTeam);
+      value = randomTeam.getSeeker();
+    } else if (placeholder.equals(Team.getPositionKeeper())) {
+      value = randomTeam.getKeeper();
+    }
+
+    return replacePlaceHolder(play, placeholder, value);
   }
 
 }
