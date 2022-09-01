@@ -1,10 +1,21 @@
 package src.main;
 
-public class Account {
+import java.text.DecimalFormat;
+
+public abstract class Account {
 
   private String id;
   private String name;
   private double balance;
+
+  public abstract void deposit(double amount);
+
+  public abstract boolean withdraw(double amount);
+
+  protected double round(double amount) {
+    DecimalFormat formatter = new DecimalFormat("#.##");
+    return Double.parseDouble(formatter.format(amount));
+  }
 
   public Account(String id, String name, double balance) {
     if (name == null || name.isEmpty()) {
@@ -15,9 +26,6 @@ public class Account {
       throw new IllegalArgumentException("Id cannot be null/blank");
     }
 
-    if (balance < 0) {
-      throw new IllegalArgumentException("Balance cannot be less then zero");
-    }
     this.id = id;
     this.name = name;
     this.balance = balance;
@@ -56,18 +64,15 @@ public class Account {
   }
 
   public void setBalance(double balance) {
-    if (balance < 0) {
-      throw new IllegalArgumentException("Balance cannot be less then zero");
-    }
     this.balance = balance;
   }
 
   @Override
   public String toString() {
     return this.getClass().getSimpleName() +
-        "\t" + getId() + "" +
-        "\t" + getName() + "" +
-        "\t" + getBalance() + "";
+        "\t" + this.getName() + "" +
+        "\t" + this.getId() + "" +
+        "\t" + this.getBalance() + "";
   }
 
 }
