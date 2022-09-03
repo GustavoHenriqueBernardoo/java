@@ -18,12 +18,8 @@ public abstract class Account {
   }
 
   public Account(String id, String name, double balance) {
-    if (name == null || name.isEmpty()) {
-      throw new IllegalArgumentException("Name cannot be null/blank");
-    }
-
-    if (id == null || id.isEmpty()) {
-      throw new IllegalArgumentException("Id cannot be null/blank");
+    if (name == null || name.isEmpty() || id == null || id.isEmpty()) {
+      throw new IllegalArgumentException("Name or id cannot be null/blank");
     }
 
     this.id = id;

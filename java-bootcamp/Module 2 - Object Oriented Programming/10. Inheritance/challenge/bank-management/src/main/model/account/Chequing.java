@@ -4,6 +4,10 @@ import src.main.Account;
 
 public class Chequing extends Account {
 
+  private static final double OVERDRAFT_FEE = 5.50;
+  private static final double OVERDRAFT_LIMIT = -200;
+  private static final double INCOME_EXCEEDS = 3.000;
+
   public Chequing(String id, String name, double balance) {
     super(id, name, balance);
   }
@@ -15,33 +19,30 @@ public class Chequing extends Account {
   @Override
   public void deposit(double amount) {
     // TODO Auto-generated method stub
+    double result = super.round(super.getBalance() + amount);
+    if (amount > INCOME_EXCEEDS) {
+      double tax = (amount * 15) / 100;
+      super.setBalance(result + tax);
+    } else {
+
+      super.setBalance(result);
+    }
 
   }
 
   @Override
   public boolean withdraw(double amount) {
-    double overdraft = amount - this.getBalance();
-    // if (!(overdraft < 200)) {
-    // this.setBalance(super.round(this.getBalance() - amount));
-    // return true;
-    // }
+    double available = super.getBalance() - amount;
 
-    if (amount > this.getBalance() && overdraft < 200) {
-      this.setBalance(super.round(this.getBalance() - amount) - 5.50);
-
-      return true;
-    } else if (!(overdraft >= 200)) {
-      this.setBalance(super.round(this.getBalance() - amount));
+    if (available < OVERDRAFT_LIMIT) {
+      return false;
+    } else if (amount > super.getBalance()) {
+      super.setBalance(super.round(super.getBalance() - amount - OVERDRAFT_FEE));
       return true;
     } else {
-      // this.setBalance(super.round(this.getBalance() - amount));
+      super.setBalance(super.round(super.getBalance() - amount));
 
     }
-
-    // } else if (!(overdraft < 200)) {
-    // this.setBalance(super.round(this.getBalance() - amount));
-    // }
-
     return false;
   }
 

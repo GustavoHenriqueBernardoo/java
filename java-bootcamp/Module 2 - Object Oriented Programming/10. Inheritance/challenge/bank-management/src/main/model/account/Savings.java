@@ -4,6 +4,8 @@ import src.main.Account;
 
 public class Savings extends Account {
 
+  private static final double WITHDRAW_CHARGE = 5.00;
+
   public Savings(String id, String name, double balance) {
     super(id, name, balance);
   }
@@ -20,8 +22,7 @@ public class Savings extends Account {
 
   @Override
   public boolean withdraw(double amount) {
-    double fee = 5.00;
-    this.setBalance((this.getBalance() - amount) - fee);
+    super.setBalance(super.getBalance() - amount - WITHDRAW_CHARGE);
     return false;
   }
 
