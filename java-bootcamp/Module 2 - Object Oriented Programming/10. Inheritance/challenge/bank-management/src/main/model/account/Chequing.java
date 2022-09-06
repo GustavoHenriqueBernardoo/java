@@ -6,7 +6,7 @@ public class Chequing extends Account {
 
   private static final double OVERDRAFT_FEE = 5.50;
   private static final double OVERDRAFT_LIMIT = -200;
-  private static final double INCOME_EXCEEDS = 3.000;
+  private static final double INCOME_EXCEEDS = 3000;
 
   public Chequing(String id, String name, double balance) {
     super(id, name, balance);
@@ -20,13 +20,14 @@ public class Chequing extends Account {
   public void deposit(double amount) {
     // TODO Auto-generated method stub
     double result = super.round(super.getBalance() + amount);
-    if (amount > INCOME_EXCEEDS) {
-      double tax = (amount * 15) / 100;
-      super.setBalance(result + tax);
-    } else {
+    super.setBalance(result);
+    // if (amount > INCOME_EXCEEDS) {
+    // double tax = (amount * 15) / 100;
+    // super.setBalance(super.round(result + tax));
+    // } else {
 
-      super.setBalance(result);
-    }
+    // super.setBalance(result);
+    // }
 
   }
 

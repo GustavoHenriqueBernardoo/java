@@ -6,7 +6,8 @@ public class Loan extends Account {
 
   // private static final double INTEREST_RATE = 36;
 
-  private static final double DEBT_EXCEEDS = 10.000;
+  private static final double INTEREST_RATE = 0.02;
+  private static final double MAX_DEBT = 10000;
 
   public Loan(String id, String name, double balance) {
     super(id, name, balance);
@@ -18,25 +19,17 @@ public class Loan extends Account {
 
   @Override
   public void deposit(double amount) {
-    // TODO Auto-generated method stub
+    super.setBalance(super.round(super.getBalance() - amount));
 
   }
 
   @Override
   public boolean withdraw(double amount) {
-    double interestRate = (amount * 2) / 100;
+    double interestRate = super.round((amount * INTEREST_RATE));
     double total = super.round(super.getBalance() + amount + interestRate);
-    if (checkDebt(total)) {
+
+    if (!(total > MAX_DEBT)) {
       super.setBalance(total);
-      return true;
-    } else {
-      return false;
-
-    }
-  }
-
-  public boolean checkDebt(double total) {
-    if (!(total > DEBT_EXCEEDS)) {
       return true;
     } else {
       return false;
