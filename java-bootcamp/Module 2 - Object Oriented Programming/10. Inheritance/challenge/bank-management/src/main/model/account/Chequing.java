@@ -50,4 +50,9 @@ public class Chequing extends Account implements Taxable {
 
   }
 
+  @Override
+  public Account clone() {
+    return new Chequing(this);
+  }
+
 }

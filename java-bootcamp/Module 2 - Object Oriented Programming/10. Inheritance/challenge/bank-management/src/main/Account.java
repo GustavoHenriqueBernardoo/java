@@ -12,6 +12,8 @@ public abstract class Account {
 
   public abstract boolean withdraw(double amount);
 
+  public abstract Account clone();
+
   protected double round(double amount) {
     DecimalFormat formatter = new DecimalFormat("#.##");
     return Double.parseDouble(formatter.format(amount));

@@ -4,11 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
 
   public enum Type {
-    WITHDRAW,
-    DEPOSIT
+    WITHDRAW, DEPOSIT
   };
 
   private Type type;
@@ -17,6 +16,9 @@ public class Transaction {
   double amount;
 
   public Transaction(Type type, long timestamp, String id, double amount) {
+    if (id.isEmpty() || id == null || amount < 0) {
+      throw new IllegalArgumentException("INVALID PARAMS");
+    }
     this.type = type;
     this.timestamp = timestamp;
     this.id = id;
@@ -25,9 +27,18 @@ public class Transaction {
   }
 
   public Transaction(Transaction source) {
+    this.type = source.type;
     this.timestamp = source.timestamp;
     this.id = source.id;
     this.amount = source.amount;
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  public void setType(Type type) {
+    this.type = type;
   }
 
   public long getTimestamp() {
@@ -43,6 +54,9 @@ public class Transaction {
   }
 
   public void setId(String id) {
+    if (id.isEmpty() || id == null) {
+      throw new IllegalArgumentException("Id cannot be null/empty");
+    }
     this.id = id;
   }
 
@@ -51,6 +65,9 @@ public class Transaction {
   }
 
   public void setAmount(double amount) {
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount cannot be less then zero");
+    }
     this.amount = amount;
   }
 
@@ -82,9 +99,14 @@ public class Transaction {
   @Override
   public String toString() {
     return type + "    " +
-        "\t" + returnDate() + "" +
-        "\t" + this.getId() + "" +
-        "\t$" + this.getAmount() + "";
+        "\t" + this.returnDate() + "" +
+        "\t" + id + "" +
+        "\t$" + amount + "";
+  }
+
+  @Override
+  public int compareTo(Transaction o) {
+    return Double.compare(this.timestamp, o.timestamp);
   }
 
 }
