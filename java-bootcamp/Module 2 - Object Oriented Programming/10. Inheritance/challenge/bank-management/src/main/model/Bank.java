@@ -37,6 +37,14 @@ public class Bank {
         .filter(account -> account.getId().equals(transactionId))
         .findFirst()
         .orElse(null);
+  }
+
+  public void withdrawTransaction(Transaction transaction) {
+    addTransaction(new Transaction(transaction));
+  }
+
+  public void depositTransaction(Transaction transaction) {
+    addTransaction(new Transaction(transaction));
 
   }
 
