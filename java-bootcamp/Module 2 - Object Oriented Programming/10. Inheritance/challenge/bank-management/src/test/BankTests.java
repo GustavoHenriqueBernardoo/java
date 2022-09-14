@@ -24,17 +24,26 @@ public class BankTests {
 
   @Test
   public void successfulTransaction() {
-    this.bank.withdrawTransaction(
+    this.bank.executeTransaction(
         new Transaction(Transaction.Type.WITHDRAW, 1546905600, "f84c43f4-a634-4c57-a644-7602f8840870", 624.99));
-    this.bank.depositTransaction(
+    this.bank.executeTransaction(
         new Transaction(Transaction.Type.DEPOSIT, 1578700800, "f84c43f4-a634-4c57-a644-7602f8840870", 441.93));
     assertEquals(2, bank.getTransactions("f84c43f4-a634-4c57-a644-7602f8840870").length);
   }
 
   @Test
   public void failedTransaction() {
-    this.bank.withdrawTransaction(
+    this.bank.executeTransaction(
         new Transaction(Transaction.Type.WITHDRAW, 1546905600, "f84c43f4-a634-4c57-a644-7602f8840870", 10000000));
     assertEquals(0, bank.getTransactions("f84c43f4-a634-4c57-a644-7602f8840870").length);
+  }
+
+  @Test
+  public void taxDeduction() {
+    this.bank.executeTransaction(
+        new Transaction(Transaction.Type.DEPOSIT, 1578700800, "f84c43f4-a634-4c57-a644-7602f8840870", 4000));
+    this.bank.deductTaxes();
+
+    assertEquals(5374.51, bank.getAccount("f84c43f4-a634-4c57-a644-7602f8840870").getBalance());
   }
 }

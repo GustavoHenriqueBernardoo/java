@@ -34,12 +34,10 @@ public class Chequing extends Account implements Taxable {
       return false;
     } else if (amount > super.getBalance()) {
       super.setBalance(super.round(super.getBalance() - amount - OVERDRAFT_FEE));
-      return true;
     } else {
       super.setBalance(super.round(super.getBalance() - amount));
-
     }
-    return false;
+    return true;
   }
 
   @Override
